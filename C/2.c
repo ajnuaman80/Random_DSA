@@ -1,36 +1,50 @@
-// 
+// Analyze the given integer array nums to determine whether 
+// it contains duplicate elements by examining the frequency or occurrence pattern of each value. 
+// Return true if at least one element appears more than once; otherwise, return false if all elements are unique. 
+// Also prints the frequency of occurrence of each element.
+
 #include <stdio.h>
 
 int main() {
-    int digits[] = {9, 2, 3, 9, 9};
-    int n = 5;
+    int n, i, j;
+    int hasDuplicate = 0;
 
-    // Start from last digit
-    for (int i = n - 1; i >= 0; i--) {
-        if (digits[i] < 9) {
-            digits[i]++;
-            break;
-        } else {
-            digits[i] = 0;
-        }
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    int nums[n];
+    int visited[n];
+
+    printf("Enter the elements:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &nums[i]);
+        visited[i] = 0;
     }
 
-    // If first digit is 0, all were 9s
-    if (digits[0] == 0) {
-        int result[n + 1];
-        result[0] = 1;
-        for (int i = 1; i <= n; i++) {
-            result[i] = 0;
+    printf("\nFrequency of elements:\n");
+
+    for (i = 0; i < n; i++) {
+        if (visited[i] == 1)
+            continue;
+
+        int count = 1;
+        for (j = i + 1; j < n; j++) {
+            if (nums[i] == nums[j]) {
+                count++;
+                visited[j] = 1;
+            }
         }
 
-        for (int i = 0; i <= n; i++) {
-            printf("%d ", result[i]);
-        }
-    } else {
-        for (int i = 0; i < n; i++) {
-            printf("%d ", digits[i]);
-        }
+        printf("%d -> %d\n", nums[i], count);
+
+        if (count > 1)
+            hasDuplicate = 1;
     }
+
+    if (hasDuplicate)
+        printf("\nOutput: true\n");
+    else
+        printf("\nOutput: false\n");
 
     return 0;
 }
